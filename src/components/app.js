@@ -1,24 +1,39 @@
-import React, {useState} from 'react';
+import React, { useState, useEffect } from 'react';
 import MessageList from './message-list';
 import Button from './button';
 import Input from './input';
+import { AUTHORS } from '../utils/constants';
 
-const messages = [
-    {key: 1, text: 'Привет'},
-    {key: 2, text: 'Как дела?'},
-    {key: 3, text: 'Нормально'}
-];
+const BOT_MESSAGES = ['Как дела?', 'Привет', 'Пока', 'Что сейчас делаешь?', 'Какие планы?', 'Я больше так не могу'];
 
 const App = () => {
-    const [messagesState, setMessages] = useState(messages);
+    const [messagesState, setMessages] = useState([]);
     const [inputValue, setInputValue] = useState('');
+    const [lastMessageAuthor, setAuthor] = useState(null);
 
-    const changeMessages = () => {
-        setMessages((state) => {
-            return [...state,
-            { key: state[state.length - 1].key + 1, text: inputValue }];
-        });
+    const { BOT: authorBot, USER: authorUser }  = AUTHORS;
+
+    useEffect(() => {
+        if (lastMessageAuthor === 'Бот') return;
+        addBotMessage();
+    }, [messagesState]);
+
+    const addBotMessage = () => {
+        addMessage(BOT_MESSAGES[Math.floor(Math.random() * 6)], authorBot);
+        setAuthor(authorBot);
+    }
+
+    const addUserMessage = () => {
+        addMessage(inputValue, authorUser);
         setInputValue('');
+        setAuthor(authorUser);
+    }
+
+    const addMessage = (text, author) => {
+        setMessages((prevState) => {
+            return [...prevState,
+                { id: Math.floor(Math.random() * 1E9), text: text , author: author }];
+        });
     }
 
     const changeText = (e) => setInputValue(e.target.value);
@@ -26,7 +41,7 @@ const App = () => {
     return <React.Fragment>
         <MessageList messages={ messagesState } />
         <Input onChange={ changeText } value={ inputValue } placeholder="Введите текст..."/>
-        <Button onClick={ changeMessages } />
+        <Button onClick={ addUserMessage } />
     </React.Fragment>;
 }
 
