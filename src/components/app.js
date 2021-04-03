@@ -1,71 +1,48 @@
-import React, {useState, useEffect} from 'react';
+import React, {useState} from 'react';
+import { BrowserRouter as Router, Switch, Route, Redirect } from 'react-router-dom';
 import Header from './header';
-import MessageList from './message-list';
+import Overlay from './overlay';
+import ChatBox from './chat-box';
 import ChatList from './chat-list';
-import {AUTHORS} from '../utils/constants';
-import { TextField, Button, Icon, List } from '@material-ui/core';
 import '../styles/styles.scss';
 
-const chats = [{ id: 1738192, name: 'Чат ботов' },
-    { id: 4564665, name: 'Друзья' },
-    { id: 4564564, name: 'Коллеги' },
-    { id: 6787979, name: 'Семейный чат' },
-    { id: 3543455, name: 'Одногруппники' }];
-
-const BOT_MESSAGES = ['Как дела?', 'Привет', 'Пока', 'Что сейчас делаешь?', 'Какие планы?', 'Я больше так не могу'];
-const BOT_DELAY = 600;
-
+const defaultChats = [{ id: 1738192, name: 'Bots chat' },
+    { id: 4564665, name: 'Friends' },
+    { id: 4564564, name: 'Colleagues' },
+    { id: 6787979, name: 'Family' },
+    { id: 3543455, name: 'Сlassmates' }];
 
 const App = () => {
-    const [messages, setMessages] = useState([]);
-    const [inputValue, setInputValue] = useState('');
-
-    const {BOT: authorBot, USER: authorUser} = AUTHORS;
-
-    useEffect(() => {
-        if (messages[messages.length - 1]?.author === 'bot') return;
-
-        const timeout = setTimeout(addBotMessage, BOT_DELAY);
-        return () => clearTimeout(timeout);
-    }, [messages]);
-
-    const addBotMessage = () => {
-        addMessage(BOT_MESSAGES[Math.floor(Math.random() * BOT_MESSAGES.length)], authorBot);
-    }
-
-    const addUserMessage = (e) => {
-        e.preventDefault();
-        addMessage(inputValue, authorUser);
-        setInputValue('');
-    }
-
-    const addMessage = (text, author) => {
-        setMessages((prevState) => {
-            return [...prevState,
-                {id: Math.floor(Math.random() * 1E9), text: text, author: author}];
-        });
-    }
-
-    const changeText = (e) => setInputValue(e.target.value);
+    const [messages, setMessages] = useState({});
+    const [chats, setChats] = useState(defaultChats);
 
     return (
-        <div className="chat">
-            <Header text="React Chat App"/>
-            <div className="chat__box">
-                <div className="chat__message-list">
-                    <MessageList messages={messages}/>
-                </div>
-                <form onSubmit={addUserMessage} className="chat__form">
-                    <TextField onChange={changeText} value={inputValue} label="Введите текст..." variant="outlined" size="small"/>
-                    <Button variant="contained" color="primary" endIcon={<Icon>send</Icon>} onClick={addUserMessage}>Отправить</Button>
-                </form>
+        <Router>
+            <div className="chat">
+                <Header text="React Chat App"/>
+                <Switch>
+                    <Route exact path="/">
+                        <Overlay />
+                        <ChatList chats={chats} setChats={setChats}/>
+                    </Route>
+                    <Route path="/profile">
+                        <Overlay text="Profile" />
+                        <ChatList chats={chats} setChats={setChats}/>
+                    </Route>
+                    <Route path="/chat-:chatId" render={ ({ match }) => {
+                        const chatsWithSelectedId = chats.filter(chat => chat.id === Number(match.params.chatId)).length;
+                        const Element = (chatsWithSelectedId) ? <ChatBox messages={messages} setMessages={setMessages}/> : <Redirect to="/" />;
+                        return (
+                            <>
+                                {Element}
+                                <ChatList chats={chats} setChats={setChats}/>
+                            </>
+                        );
+                    }} />
+                    <Redirect to="/" />
+                </Switch>
             </div>
-            <div className="chat__chats-list">
-                <List component="nav" aria-label="main mailbox folders">
-                    <ChatList chats={chats}/>
-                </List>
-            </div>
-        </div>
+        </Router>
     );
 }
 
