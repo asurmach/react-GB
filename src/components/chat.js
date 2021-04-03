@@ -13,7 +13,7 @@ const Chat = ({id, name}) => {
     const { chatId } = useParams();
     const classes = useStyles();
 
-    const isActive = chatId === id;
+    const isActive = Number(chatId) === id;
 
     return (
         <ListItem button>
