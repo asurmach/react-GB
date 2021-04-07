@@ -1,18 +1,19 @@
 import React, { useState } from 'react';
-import Chat from './chat';
+import { useSelector, useDispatch } from 'react-redux';
+import { addChat as addChatAction } from '../store/chat-list/actions';
+import Chat from '../components/chat';
 import { TextField, Fab, List } from '@material-ui/core';
 import AddIcon from '@material-ui/icons/Add';
 
-const ChatList = ({ chats, setChats }) => {
+const ChatList = () => {
+    const chats = useSelector(state => state.chatList.chats);
+    const dispatch = useDispatch();
     const [inputValue, setInputValue] = useState('');
 
     const addChat = (e) => {
         e.preventDefault();
 
-        setChats((prevState) => {
-            return [...prevState,
-                {id: Math.floor(Math.random() * 1E8), name: inputValue}];
-        });
+        dispatch(addChatAction(inputValue));
 
         setInputValue('');
     }

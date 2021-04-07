@@ -1,0 +1,1 @@
+export const ADD_CHAT = "CHAT_LIST::ADD_CHAT";
