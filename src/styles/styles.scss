@@ -1,6 +1,8 @@
 .chat {
+    $color: #009480;
+
     height: 100%;
-    width: 60%;
+    width: 80%;
     margin: auto;
     display: flex;
     flex-wrap: wrap;
@@ -10,22 +12,39 @@
         margin-bottom: 20px;
         width: 100%;
         text-align: center;
+
+        &__link{
+            font-size: 24px;
+            margin: 10px 0;
+            color: $color;
+        }
     }
 
-    &__box{
+    &__box,
+    &__overlay{
         width: 70%;
         height: 50vh;
+    }
+
+    &__overlay{
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        background-color: #5FD2B5;
+        font-size: 40px;
+        line-height: 1.2;
     }
 
     &__form{
         display: flex;
         justify-content: center;
+        margin: 5px;
     }
 
     &__message {
         display: flex;
         flex-direction: column;
-        background-color: #e2e2e2;
+        background-color: #00E4C5;
         width: 60%;
         padding: 10px;
         margin-bottom: 20px;
@@ -38,7 +57,7 @@
         &-list{
             height: 100%;
             font-size: 16px;
-            background-color: lightblue;
+            background-color: #6DF1DF;
             padding: 20px 30px;
             margin: 5px;
             overflow-y: scroll;
@@ -52,5 +71,10 @@
 
     &__chats-list{
         width: 30%;
+
+        &__link{
+            color: $color;
+            text-decoration: none;
+        }
     }
 }
