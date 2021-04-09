@@ -13,19 +13,26 @@
         width: 100%;
         text-align: center;
 
-        &__link{
+        &__link,
+        &__user{
             font-size: 24px;
             margin: 10px 0;
             color: $color;
         }
+
+        &__user{
+            color: #bdbdbd;
+        }
     }
 
     &__box,
-    &__overlay{
+    &__overlay,
+    &__profile-page{
         width: 70%;
         height: 50vh;
     }
 
+    &__profile-page,
     &__overlay{
         display: flex;
         align-items: center;
@@ -33,6 +40,22 @@
         background-color: #5FD2B5;
         font-size: 40px;
         line-height: 1.2;
+    }
+
+    &__profile-page{
+        flex-direction: column;
+        justify-content: space-between;
+
+        &__title{
+            font-size: 24px;
+            margin: 20px 0;
+        }
+
+        &__link{
+            font-size: 20px;
+            margin: 20px 0;
+            color: $color;
+        }
     }
 
     &__form{

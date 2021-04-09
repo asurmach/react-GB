@@ -1,0 +1,1 @@
+export const ADD_MESSAGE = "CHAT_BOX::ADD_MESSAGE";

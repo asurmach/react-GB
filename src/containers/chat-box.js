@@ -1,25 +1,21 @@
 import React, {useState, useEffect } from 'react';
+import { useSelector, useDispatch } from 'react-redux';
+import { addMessage as addMessageAction } from '../store/chat-box/actions';
 import { useParams } from 'react-router-dom';
-import MessageList from './message-list';
-import {AUTHORS} from '../utils/constants';
-import { TextField, Button, Icon, List } from '@material-ui/core';
+import MessageList from '../components/message-list';
+import { AUTHORS } from '../utils/constants';
+import { TextField, Button, Icon } from '@material-ui/core';
 
 const BOT_MESSAGES = ['How are you?', 'Hi', 'Bye', 'What are you doing?', 'What are your plans?', 'I cant do this anymore'];
 const BOT_DELAY = 600;
 
-/**
- * Messages object
- * {
- *   12312323: [{id: 189418833, text: "Hi", author: "bot"}],
- *   23423423: [{id: 189418833, text: "What are your plans?", author: "user"}]
- * }
- */
-
-const ChatBox = ({ messages, setMessages }) => {
+const ChatBox = () => {
+    const messages = useSelector(state => state.chatBox.messages);
+    const dispatch = useDispatch();
     const [inputValue, setInputValue] = useState('');
     const { chatId } = useParams();
 
-    const {BOT: authorBot, USER: authorUser} = AUTHORS;
+    const { BOT: authorBot, USER: authorUser } = AUTHORS;
 
     useEffect(() => {
         const chatMessages = messages[chatId];
@@ -39,18 +35,7 @@ const ChatBox = ({ messages, setMessages }) => {
     }
 
     const addMessage = (text, author) => {
-        setMessages((prevState) => {
-            const nextState = Object.assign({}, prevState);
-
-            if (!nextState[chatId]) nextState[chatId] = [];
-
-            nextState[chatId].push({
-                id: Math.floor(Math.random() * 1E9),
-                text: text,
-                author: author
-            });
-            return nextState;
-        });
+        dispatch(addMessageAction(chatId, text, author));
     }
 
     const changeText = (e) => setInputValue(e.target.value);

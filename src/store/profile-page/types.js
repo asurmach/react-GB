@@ -1,0 +1,1 @@
+export const SET_NAME = "PROFILE_PAGE::SET_NAME";
