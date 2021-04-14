@@ -73,6 +73,11 @@
         margin-bottom: 20px;
         border-radius: 10px;
 
+        &__wrap{
+            display: flex;
+            justify-content: space-between;
+        }
+
         &_user{
             margin-left: auto;
         }
@@ -96,6 +101,8 @@
         width: 30%;
 
         &__link{
+            display: flex;
+            align-items: center;
             color: $color;
             text-decoration: none;
         }

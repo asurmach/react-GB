@@ -1,1 +1,3 @@
 export const ADD_MESSAGE = "CHAT_BOX::ADD_MESSAGE";
+export const DELETE_MESSAGE = "CHAT_BOX::DELETE_MESSAGE";
+export const FLASHING = "CHAT_BOX::FLASHING";
