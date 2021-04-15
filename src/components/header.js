@@ -6,7 +6,7 @@ const Header = ({ text }) => {
     const userName = useSelector(state => state.profilePage.userName);
 
     const onClickHandler = (e) => {
-        e?.preventDefault();
+        e.preventDefault();
 
         history.push(e.target.getAttribute('href'));
     }
@@ -15,7 +15,10 @@ const Header = ({ text }) => {
         <div className="chat__header">
             <div>{text}</div>
             <div className="chat__header__user">User: {userName}</div>
-            <a href="/profile" className="chat__header__link" onClick={onClickHandler}>Profile</a>
+            <div>
+                <a href="/profile" className="chat__header__link" onClick={onClickHandler}>Profile</a>
+                <a href="/articles" className="chat__header__link" onClick={onClickHandler}>Articles</a>
+            </div>
         </div>
     );
 }

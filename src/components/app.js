@@ -9,6 +9,7 @@ import Overlay from './overlay';
 import ChatPage from '../containers/chat-page';
 import ChatList from '../containers/chat-list';
 import ProfilePage from '../containers/profile-page';
+import ArticlesPage from '../containers/articles-page';
 import '../styles/styles.scss';
 
 const App = () => {
@@ -25,6 +26,10 @@ const App = () => {
                             </Route>
                             <Route path="/profile">
                                 <ProfilePage />
+                                <ChatList />
+                            </Route>
+                            <Route path="/articles">
+                                <ArticlesPage />
                                 <ChatList />
                             </Route>
                             <Route path="/chat-:chatId">

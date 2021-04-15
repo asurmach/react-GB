@@ -9,13 +9,15 @@ import { connectRouter } from 'connected-react-router';
 import { chatBoxReducer } from "./chat-box/reducer";
 import { chatListReducer } from "./chat-list/reducer";
 import { profilePageReducer } from './profile-page/reducer';
+import { articlesReducer } from './articles-page/reducer';
 
 const innitialStore = {};
 
 const persistConfig = {
     key: 'gb-react-chat',
     storage,
-    stateReconciler: autoMergeLevel2
+    stateReconciler: autoMergeLevel2,
+    blacklist: ['articlesPage']
 }
 
 export const history = createBrowserHistory();
@@ -26,7 +28,8 @@ const persistedReducer = persistReducer(
         router: connectRouter(history),
         chatBox: chatBoxReducer,
         chatList: chatListReducer,
-        profilePage: profilePageReducer
+        profilePage: profilePageReducer,
+        articlesPage: articlesReducer,
     })
 );
 const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;

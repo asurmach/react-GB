@@ -20,6 +20,10 @@
             color: $color;
         }
 
+        &__link{
+            margin: 0 10px;
+        }
+
         &__user{
             color: #bdbdbd;
         }
@@ -27,12 +31,14 @@
 
     &__box,
     &__overlay,
-    &__profile-page{
+    &__profile-page,
+    &__articles-page{
         width: 70%;
         height: 50vh;
     }
 
     &__profile-page,
+    &__articles-page,
     &__overlay{
         display: flex;
         align-items: center;
@@ -42,7 +48,8 @@
         line-height: 1.2;
     }
 
-    &__profile-page{
+    &__profile-page,
+    &__articles-page{
         flex-direction: column;
         justify-content: space-between;
 
@@ -55,6 +62,24 @@
             font-size: 20px;
             margin: 20px 0;
             color: $color;
+        }
+    }
+
+    &__articles-page{
+        &__search-results{
+            width: 90%;
+            border: 1px solid #009480;
+            overflow-y: scroll;
+            margin: 30px;
+        }
+    }
+
+    &__article{
+        font-size: 18px;
+        padding: 10px 20px;
+
+        &__text{
+            font-size: 16px;
         }
     }
 
