@@ -1,4 +1,6 @@
 import { ADD_MESSAGE } from "./types";
+import { DELETE_MESSAGE } from "./types";
+import { FLASHING } from "./types";
 
 /**
  * Messages state object
@@ -11,7 +13,8 @@ import { ADD_MESSAGE } from "./types";
  */
 
 const initialState = {
-    messages: {}
+    messages: {},
+    flashing: false
 }
 
 export const chatBoxReducer = (state = initialState, { type, payload }) => {
@@ -25,6 +28,24 @@ export const chatBoxReducer = (state = initialState, { type, payload }) => {
                     [chatId]: [...(state.messages[chatId] || []),
                         { id: Math.floor(Math.random() * 1E8), text, author }]
                 }
+            };
+        }
+        case DELETE_MESSAGE: {
+            const { chatId, id } = payload;
+            const chatMessages = state.messages[chatId];
+            const idx = chatMessages.findIndex(item => item.id === id);
+            return {
+                ...state,
+                messages: {
+                    ...state.messages,
+                    [chatId]: [...chatMessages.slice(0, idx), ...chatMessages.slice(idx + 1)]
+                }
+            };
+        }
+        case FLASHING: {
+            return {
+                ...state,
+                flashing: !state.flashing
             };
         }
         default:

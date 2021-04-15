@@ -1,1 +1,2 @@
 export const ADD_CHAT = "CHAT_LIST::ADD_CHAT";
+export const DELETE_CHAT = "CHAT_LIST::DELETE_CHAT";

@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { addChat as addChatAction } from '../store/chat-list/actions';
-import Chat from '../components/chat';
+import Chat from './chat';
 import { TextField, Fab, List } from '@material-ui/core';
 import AddIcon from '@material-ui/icons/Add';
 
@@ -12,6 +12,8 @@ const ChatList = () => {
 
     const addChat = (e) => {
         e.preventDefault();
+
+        if (!inputValue) return;
 
         dispatch(addChatAction(inputValue));
 

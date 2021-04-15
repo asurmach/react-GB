@@ -1,36 +1,35 @@
 import React, {useState, useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import { addMessage as addMessageAction } from '../store/chat-box/actions';
+import { addMessage as addMessageAction, addBotMessage as addBotMessageAction } from '../store/chat-box/actions';
 import { useParams } from 'react-router-dom';
 import MessageList from '../components/message-list';
 import { AUTHORS } from '../utils/constants';
 import { TextField, Button, Icon } from '@material-ui/core';
 
-const BOT_MESSAGES = ['How are you?', 'Hi', 'Bye', 'What are you doing?', 'What are your plans?', 'I cant do this anymore'];
-const BOT_DELAY = 600;
+
 
 const ChatBox = () => {
-    const messages = useSelector(state => state.chatBox.messages);
     const dispatch = useDispatch();
+    const messages = useSelector(state => state.chatBox.messages);
     const [inputValue, setInputValue] = useState('');
     const { chatId } = useParams();
 
-    const { BOT: authorBot, USER: authorUser } = AUTHORS;
-
+    // First message from bot in chat
     useEffect(() => {
-        const chatMessages = messages[chatId];
-        if (chatMessages && chatMessages[chatMessages.length - 1]?.author === 'bot') return;
-        const timeout = setTimeout(() => addBotMessage(), BOT_DELAY);
-        return () => clearTimeout(timeout);
-    }, [messages, chatId]);
+        addBotMessage();
+    }, [chatId]);
 
     const addBotMessage = () => {
-        addMessage(BOT_MESSAGES[Math.floor(Math.random() * BOT_MESSAGES.length)], authorBot);
+        dispatch(addBotMessageAction(chatId));
     }
 
     const addUserMessage = (e) => {
         e.preventDefault();
-        addMessage(inputValue, authorUser);
+
+        if (!inputValue) return;
+
+        addMessage(inputValue, AUTHORS.USER);
+        addBotMessage();
         setInputValue('');
     }
 
