@@ -14,14 +14,14 @@ const ChatBox = () => {
     const [inputValue, setInputValue] = useState('');
     const { chatId } = useParams();
 
+    const addBotMessage = () => {
+        dispatch(addBotMessageAction(chatId));
+    }
+
     // First message from bot in chat
     useEffect(() => {
         addBotMessage();
     }, [chatId]);
-
-    const addBotMessage = () => {
-        dispatch(addBotMessageAction(chatId));
-    }
 
     const addUserMessage = (e) => {
         e.preventDefault();
